@@ -1,0 +1,54 @@
+{
+  "buy": {
+    "TEST": [
+      {
+        "price": 0.94833,
+        "quantity": 400,
+        "timestamp": "2021-09-3-11:25:48"
+      },
+      {
+        "price": 0.95143,
+        "quantity": 200,
+        "timestamp": "2021-09-3-12:43:23"
+      }
+    ],
+    "HELLO": [
+      {
+        "price": 0.02134,
+        "quantity": 300,
+        "timestamp": "2021-09-3-11:26:34"
+      }
+    ]
+  },
+  "sell": {
+    "TEST": [
+      {
+        "price": 0.94943,
+        "quantity": 400,
+        "profit": 0.44,
+        "timestamp": "2021-09-3-11:29:20"
+      },
+      {
+        "price": 1.01434,
+        "quantity": 200,
+        "profit": 12.582,
+        "timestamp": "2021-09-3-12:59:33"
+      }
+    ],
+    "HELLO": [
+      {
+        "price": 0.04373,
+        "quantity": 300,
+        "profit": 6.717,
+        "timestamp": "2021-09-3-11:48:17"
+      }
+    ]
+  },
+  "stats": {
+    "initialBalance": 1000,
+    "dayProfit": 19.739,
+    "percentChange": 1.9739,
+    "balance": 1019.73,
+    "totalTrades": 3
+  }
+}
