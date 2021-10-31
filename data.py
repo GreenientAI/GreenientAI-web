@@ -11,8 +11,8 @@ def get_gainers():
   # use lxml -- parses XML and HTML
   soup = BeautifulSoup(source, 'lxml')
 
-  # Remove the first 6 stock indexes and the last 20 gainers to only get the top 5 gainers
-  tags = soup.find_all('a', attrs={"class": "Fw(600)"})[6:11]
+  # Remove the first 6 stock indexes to only get the top 25 gainers
+  tags = soup.find_all('a', attrs={"class": "Fw(600)"})[6:]
 
   gainers = [x.string for x in tags]
   
