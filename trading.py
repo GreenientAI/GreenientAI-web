@@ -56,9 +56,9 @@ def sell_share(symbol):
 '''
 5 steps to place a trade
 
-1. 
-2. 
-3. 
-4. 
-5. 
+1. The Trade Setup
+2. The Trade Trigger
+3. The Stop Loss
+4. The Price Target
+5. The Reward-To-Risk
 '''

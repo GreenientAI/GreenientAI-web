@@ -9,9 +9,12 @@ beautifulsoup4 = "*"
 lxml = "*"
 termcolor = "*"
 schedule = "*"
+newsapi-python = "*"
+azure-ai-textanalytics = "==5.1.0"
 
 [dev-packages]
 pytest = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.9"
