@@ -1,3 +1,5 @@
 {
-  "balance": 1000
+  "balance": 300,
+  "invested": 700,
+  "total": 1000
 }
