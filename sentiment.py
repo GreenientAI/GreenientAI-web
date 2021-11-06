@@ -4,12 +4,12 @@ from azure.ai.textanalytics import TextAnalyticsClient
 from bs4 import BeautifulSoup
 import os
 import requests
-import re
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
+load_dotenv()
+
 """Gets the article content by webscraping the article and searching for <p></p> tags"""
-
-
 def get_article_content(url):
     source = requests.get(url).text
     soup = BeautifulSoup(source, "lxml")
@@ -33,8 +33,6 @@ text_analytics_client = TextAnalyticsClient(
 )
 
 """Gets all the articles (only on the first page), sorted by relevancy, from today to a week ago"""
-
-
 def get_all_articles(topic):
     today_date = datetime.today().strftime("%Y-%m-%d")
     week_ago_date = (datetime.today() - timedelta(days=7)).strftime("%Y-%m-%d")
@@ -50,8 +48,6 @@ def get_all_articles(topic):
 
 
 """Gets the overall sentiment and sentiment score of the articles"""
-
-
 def get_articles_sentiment(topic):
     all_articles = get_all_articles(topic)
     articlesCount = len(all_articles["articles"])
