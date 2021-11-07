@@ -1,1 +1,8 @@
-{}
+{
+  "stocks/view.tsx -> ../../components/Chart": {
+    "id": "./components/Chart.tsx",
+    "files": [
+      "static/chunks/components_Chart_tsx.js"
+    ]
+  }
+}
