@@ -8,8 +8,10 @@ import IUser from '../ts/interfaces/UserInterface';
 export const LOGIN_USER = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  // Fetch the user with the email provided
   const user = await User.findOne({ email });
 
+  // Make sure that both email and password are provided
   if (!email || !password) {
     if (!email) {
       return res.status(401).json({
@@ -26,12 +28,14 @@ export const LOGIN_USER = async (req: Request, res: Response) => {
     });
   }
 
+  // Make sure that the password is at least 8 characters for security
   if (password.length < 8) {
     return res.status(401).json({
       message: 'Password must be at least 8 characters long',
     });
   }
 
+  // Check if the user has an account
   if (!user) {
     return res.status(401).json({
       message: 'An account with that email does not exist',
@@ -44,6 +48,7 @@ export const LOGIN_USER = async (req: Request, res: Response) => {
     _id: user._id,
   };
 
+  // If the password is correct, grant access through JWT
   if (passwordVerified) {
     const { accessToken, refreshToken } = createTokens(jwtPayload, true);
 
@@ -63,13 +68,14 @@ export const LOGIN_USER = async (req: Request, res: Response) => {
   });
 };
 
-// Register user through name, grade, email, and password
+// Register user through name, email, and password
 export const REGISTER_USER = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
+  
   const user = await User.findOne({ email });
 
-
+    // Check if the user is already registered
     if (user) {
         return res.status(409).json({
           message: 'An account with that email already exists',
@@ -91,6 +97,7 @@ export const REGISTER_USER = async (req: Request, res: Response) => {
       password: hash,
     });
 
+    // Save the user in the mongodb database
     newUser.save().then((userInfo: IUser) => {
       const jwtPayload = {
         _id: userInfo._id,
@@ -114,6 +121,7 @@ export const REGISTER_USER = async (req: Request, res: Response) => {
 };
 
 export const GENERATE_TOKEN = async (req: Request, res: Response) => {
+  // Refresh token allows for extended log in time
   const { refreshToken } = req.body;
   if (!refreshToken) {
     return res.status(400).send({

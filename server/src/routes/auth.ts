@@ -10,6 +10,11 @@ const router = express.Router();
  */
 router.post('/login', AuthController.LOGIN_USER);
 
+/**
+ * @route POST /register
+ * @desc Register a user using a name, email, and password
+ * @access Public
+ */
 router.post('/register', AuthController.REGISTER_USER);
 
 export default router;
