@@ -23,10 +23,10 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ title }) => {
                 <Nav.Link className={styles.navLink}>Stocks</Nav.Link>
               </Link>
             </Nav.Item>
-            <Link href="/" passHref={true}>
+            <Link href="/auth/login" passHref={true}>
               <Nav.Link className={authNavLink}>Login</Nav.Link>
             </Link>
-            <Link href="/" passHref={true}>
+            <Link href="/auth/signup" passHref={true}>
               <Nav.Link className={authNavLink}>Sign Up</Nav.Link>
             </Link>
           </Nav>

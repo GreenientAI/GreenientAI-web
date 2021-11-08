@@ -1,9 +1,16 @@
+import React, { useEffect } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Button, Container, Row, Col } from 'react-bootstrap'
+import tawkTo from '../components/TawkTo'
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    const tawkToUrl = "https://embed.tawk.to/61885a8e6885f60a50babc80/1fjua3g4e";
+    tawkTo(tawkToUrl);
+  }, [])
+
   return (
     <div style={{backgroundColor: '#112636', height: '100vh'}}>
       <Head>

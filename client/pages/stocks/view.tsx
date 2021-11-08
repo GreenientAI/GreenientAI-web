@@ -4,9 +4,7 @@ const Chart = dynamic(() => import('../../components/Chart'), {
   ssr: false,
 });
 
-interface viewProps {
-  
-}
+interface viewProps {}
 
 const view: React.FC<viewProps> = ({}) => {
   return (
