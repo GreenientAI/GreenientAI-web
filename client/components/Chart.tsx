@@ -1,16 +1,47 @@
-import React, { useRef, useEffect } from 'react';
-import dynamic from 'next/dynamic'
-import { createChart } from 'lightweight-charts'
+import React, { useRef, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { createChart } from 'lightweight-charts';
+import axios from 'axios';
 
-interface ChartProps {
-  
-}
+interface ChartProps {}
 
-
-const Chart: React.FC<ChartProps> = ({ }) => {
+const Chart: React.FC<ChartProps> = ({}) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
+  const alphaVantageKey = 'EOIABUBVKGRVRLSV';
+
+  interface IStockData {
+    time: string;
+    value: number;
+  }
+
+  const [stockData, setStockData] = useState<Array<IStockData>>([
+    {
+      time: '',
+      value: 0,
+    },
+  ]);
+
   useEffect(() => {
+    axios
+      .get(
+        `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=AAPL&apikey=${alphaVantageKey}`
+      )
+      .then((res: any) => {
+        const data = res['data']['Monthly Adjusted Time Series'];
+        const formattedData = Object.keys(data).map((time: string) => {
+          return {
+            time,
+            value: +data[time]['5. adjusted close'],
+          };
+        });
+        formattedData.reverse();
+        setStockData(formattedData);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+
     if (chartRef.current) {
       const chart = createChart(chartRef.current, {
         width: 800,
@@ -32,7 +63,7 @@ const Chart: React.FC<ChartProps> = ({ }) => {
         },
         timeScale: {
           borderVisible: false,
-        }
+        },
       });
       const areaSeries = chart.addAreaSeries({
         topColor: 'rgba(0, 255, 0, 0.5)',
@@ -40,19 +71,7 @@ const Chart: React.FC<ChartProps> = ({ }) => {
         lineColor: 'rgba(0, 255, 0, 1)',
         lineWidth: 2,
       });
-      areaSeries.setData([
-        { time: '2019-04-11', value: 80.01 },
-        { time: '2019-04-12', value: 96.63 },
-        { time: '2019-04-13', value: 76.64 },
-        { time: '2019-04-14', value: 81.89 },
-        { time: '2019-04-15', value: 74.43 },
-        { time: '2019-04-16', value: 80.01 },
-        { time: '2019-04-17', value: 96.63 },
-        { time: '2019-04-18', value: 76.64 },
-        { time: '2019-04-19', value: 81.89 },
-        { time: '2019-04-20', value: 74.43 },
-      ]);
-
+      areaSeries.setData(stockData);
 
       chart.timeScale().fitContent();
       chart.timeScale().scrollToRealTime();
