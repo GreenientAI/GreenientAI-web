@@ -23,25 +23,20 @@ const Chart: React.FC<ChartProps> = ({}) => {
   ]);
 
   useEffect(() => {
-    axios
-      .get(
+    async function fetchStockData() {
+      const response = await axios.get(
         `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=AAPL&apikey=${alphaVantageKey}`
-      )
-      .then((res: any) => {
-        const data = res['data']['Monthly Adjusted Time Series'];
-        const formattedData = Object.keys(data).map((time: string) => {
-          return {
-            time,
-            value: +data[time]['5. adjusted close'],
-          };
-        });
-        formattedData.reverse();
-        setStockData(formattedData);
-      })
-      .catch((err: any) => {
-        console.log(err);
+      );
+      const data = response['data']['Monthly Adjusted Time Series'];
+      const formattedData = Object.keys(data).map((time: string) => {
+        return {
+          time,
+          value: +data[time]['5. adjusted close'],
+        };
       });
-
+      formattedData.reverse();
+      setStockData(formattedData);
+    }
     if (chartRef.current) {
       const chart = createChart(chartRef.current, {
         width: 800,
