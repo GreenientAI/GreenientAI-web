@@ -4,11 +4,18 @@ import * as UsersController from '../controllers/UsersController';
 const router = express.Router();
 
 /**
- * @route GET /:id?
- * @desc Get all users or get a specific user
+ * @route GET /
+ * @desc Get all users
  * @access Private
  */
-router.get('/:id?', UsersController.GET_USERS);
+router.get('/', UsersController.GET_USERS);
+
+/**
+ * @route GET /:id
+ * @desc Get a specific user
+ * @access Private
+ */
+router.get('/:id', UsersController.GET_USER_BY_ID);
 
 /**
  * @route PATCH /:id

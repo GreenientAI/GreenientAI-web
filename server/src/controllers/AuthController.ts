@@ -72,49 +72,48 @@ export const LOGIN_USER = async (req: Request, res: Response) => {
 export const REGISTER_USER = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
-  
   const user = await User.findOne({ email });
 
-    // Check if the user is already registered
-    if (user) {
-        return res.status(409).json({
-          message: 'An account with that email already exists',
-        });
-    }
-
-    let hash = '';
-    try {
-      hash = await bcrypt.hash(password, 10);
-    } catch (error) {
-      return res.status(500).json({
-        message: 'Could not properly hash the password. Please try again',
-      });
-    }
-
-    const newUser = new User({
-      name,
-      email,
-      password: hash,
+  // Check if the user is already registered
+  if (user) {
+    return res.status(409).json({
+      message: 'An account with that email already exists',
     });
+  }
 
-    // Save the user in the mongodb database
-    newUser.save().then((userInfo: IUser) => {
-      const jwtPayload = {
-        _id: userInfo._id,
-      };
-
-      const { accessToken, refreshToken } = createTokens(jwtPayload, true);
-
-      return res.status(201).send({
-        message: 'User Created',
-        user: userInfo,
-        tokens: {
-          accessToken,
-          refreshToken,
-        },
-        auth: true,
-      });
+  let hash = '';
+  try {
+    hash = await bcrypt.hash(password, 10);
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Could not properly hash the password. Please try again',
     });
+  }
+
+  const newUser = new User({
+    name,
+    email,
+    password: hash,
+  });
+
+  // Save the user in the mongodb database
+  newUser.save().then((userInfo: IUser) => {
+    const jwtPayload = {
+      _id: userInfo._id,
+    };
+
+    const { accessToken, refreshToken } = createTokens(jwtPayload, true);
+
+    return res.status(201).send({
+      message: 'User Created',
+      user: userInfo,
+      tokens: {
+        accessToken,
+        refreshToken,
+      },
+      auth: true,
+    });
+  });
 
   // Will never be reached
   return null;

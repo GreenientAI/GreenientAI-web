@@ -3,10 +3,10 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User.model';
 import Changeable from '../ts/enums/UserEnum';
 
-export const GET_USERS = async (req: Request, res: Response) => {
+export const GET_USER_BY_ID = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  if (id) {
+
     try {
       const user = await User.findById(id).select('-password');
 
@@ -16,22 +16,23 @@ export const GET_USERS = async (req: Request, res: Response) => {
         message: 'A user with that id was not found',
       });
     }
-  } else {
-    try {
-      const users = await User.find().select('-password');
-      const userCount = users.length;
-
-      res.status(200).json({
-        userCount,
-        users,
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: 'Please try again',
-      });
-    }
-  }
 };
+
+export const GET_USERS = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find().select('-password');
+    const userCount = users.length;
+
+    res.status(200).json({
+      userCount,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Please try again',
+    });
+  }
+}
 
 export const EDIT_USER = async (req: Request, res: Response) => {
   const { id } = req.params;

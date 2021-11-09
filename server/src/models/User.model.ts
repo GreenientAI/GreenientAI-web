@@ -14,6 +14,8 @@ const UserSchema: Schema = new Schema<IUser>({
     type: String,
     required: true,
   },
+}, {
+  timestamps: true,
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
