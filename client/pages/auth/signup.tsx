@@ -10,24 +10,29 @@ import { Button, Form, Container } from 'react-bootstrap';
 import * as yup from 'yup';
 import ErrorText from '../../components/auth/ErrorText';
 import Head from 'next/head';
+import axios from 'axios';
 
 interface ISignUpForm {
+  name: string;
   email: string;
   password: string;
 }
 
 const initialValues: ISignUpForm = {
+  name: '',
   email: '',
   password: '',
 };
 
 const validationSchema = yup.object({
+  name: yup.string().required('Required'),
   email: yup.string().email('Invalid email').required('Required'),
   password: yup.string().required('Required'),
 });
 
-const onSubmit = (values: ISignUpForm) => {
-  console.log(values);
+const onSubmit = async (values: ISignUpForm) => {
+  const response = await axios.post('/auth/register', values)
+  console.log(response)
 };
 
 const SignUp: React.FC = () => {
@@ -75,7 +80,7 @@ const SignUp: React.FC = () => {
               <ErrorMessage name='password' component={ErrorText} />
             </Form.Group>
             <Button variant='primary' type='submit' className='mt-2'>
-              Submit
+              Sign Up
             </Button>
           </FormikForm>
         </Formik>

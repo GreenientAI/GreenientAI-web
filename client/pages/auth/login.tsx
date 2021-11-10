@@ -10,6 +10,7 @@ import { Button, Form, Container } from 'react-bootstrap';
 import * as yup from 'yup';
 import ErrorText from '../../components/auth/ErrorText';
 import Head from 'next/head';
+import axios from 'axios';
 
 interface ILoginForm {
   email: string;
@@ -26,8 +27,9 @@ const validationSchema = yup.object({
   password: yup.string().required('Required'),
 });
 
-const onSubmit = (values: ILoginForm) => {
-  console.log(values);
+const onSubmit = async (values: ILoginForm) => {
+  const response = await axios.post('/auth/login', values);
+  console.log(response)
 };
 
 const Login: React.FC = () => {
@@ -65,7 +67,7 @@ const Login: React.FC = () => {
               <ErrorMessage name='password' component={ErrorText} />
             </Form.Group>
             <Button variant='primary' type='submit' className='mt-2'>
-              Submit
+              Log in
             </Button>
           </FormikForm>
         </Formik>
