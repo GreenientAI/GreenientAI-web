@@ -24,17 +24,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const AuthController = __importStar(require("../controllers/AuthController"));
+const verifyEmailAndPassword_1 = __importDefault(require("../middleware/verifyEmailAndPassword"));
 const router = express_1.default.Router();
 /**
  * @route POST /login
  * @desc Login a user using an email and password
  * @access Public
  */
-router.post('/login', AuthController.LOGIN_USER);
+router.post('/login', verifyEmailAndPassword_1.default, AuthController.LOGIN_USER);
 /**
  * @route POST /register
  * @desc Register a user using a name, email, and password
  * @access Public
  */
-router.post('/register', AuthController.REGISTER_USER);
+router.post('/register', verifyEmailAndPassword_1.default, AuthController.REGISTER_USER);
 exports.default = router;

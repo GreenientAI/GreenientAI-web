@@ -11,30 +11,6 @@ export const LOGIN_USER = async (req: Request, res: Response) => {
   // Fetch the user with the email provided
   const user = await User.findOne({ email });
 
-  // Make sure that both email and password are provided
-  if (!email || !password) {
-    if (!email) {
-      return res.status(401).json({
-        message: 'Please enter an email',
-      });
-    }
-    if (!password) {
-      return res.status(401).json({
-        message: 'Please enter a password',
-      });
-    }
-    return res.status(401).json({
-      message: 'Please enter both the email and password',
-    });
-  }
-
-  // Make sure that the password is at least 8 characters for security
-  if (password.length < 8) {
-    return res.status(401).json({
-      message: 'Password must be at least 8 characters long',
-    });
-  }
-
   // Check if the user has an account
   if (!user) {
     return res.status(401).json({

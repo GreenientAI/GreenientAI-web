@@ -5,15 +5,15 @@ import Changeable from '../ts/enums/UserEnum';
 
 export const GET_USER_BY_ID = async (req: Request, res: Response) => {
   const { id } = req.params;
-    try {
-      const user = await User.findById(id).select('-password');
+  try {
+    const user = await User.findById(id).select('-password');
 
-      res.status(200).send(user);
-    } catch (error) {
-      res.status(404).json({
-        message: 'A user with that id was not found',
-      });
-    }
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(404).json({
+      message: 'A user with that id was not found',
+    });
+  }
 };
 
 export const GET_USERS = async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ export const GET_USERS = async (req: Request, res: Response) => {
       message: 'Please try again',
     });
   }
-}
+};
 
 export const EDIT_USER = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -115,18 +115,18 @@ export const EDIT_USER = async (req: Request, res: Response) => {
 export const DELETE_USER = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  User.findByIdAndDelete(id)
-    .then((user) => {
-      if (user) {
-        res.status(200).json({
-          user,
-          message: 'User deleted successfully',
-        });
-      }
-    })
-    .catch(() => {
-      res.status(400).json({
-        message: 'A user with that id does not exist',
-      });
+  const user = await User.findById(id);
+
+  if (user) {
+    const userDeleted = await User.findByIdAndDelete(id);
+
+    res.status(200).json({
+      user,
+      message: 'User deleted successfully',
     });
+  } else {
+    res.status(400).json({
+      message: 'A user with that id does not exist',
+    });
+  }
 };
