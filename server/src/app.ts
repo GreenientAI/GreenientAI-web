@@ -3,12 +3,13 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import path from 'path';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
 
-dotenv.config({  path: './env' });
+dotenv.config({  path: path.resolve(__dirname, '../.env') });
 const router = express.Router();
 const app = express();
 

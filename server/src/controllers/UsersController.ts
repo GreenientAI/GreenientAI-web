@@ -5,8 +5,6 @@ import Changeable from '../ts/enums/UserEnum';
 
 export const GET_USER_BY_ID = async (req: Request, res: Response) => {
   const { id } = req.params;
-
-
     try {
       const user = await User.findById(id).select('-password');
 
