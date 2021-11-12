@@ -2,78 +2,112 @@ from data import get_stock_data, get_gainers
 import time
 from datetime import datetime
 from termcolor import cprint, colored
-import schedule
-import threading
+import json
+import yfinance as yf
+from history import update_history
 
-# From https://schedule.readthedocs.io/en/stable/background-execution.html
-def run_continuously(interval=1):
-    cease_continuous_run = threading.Event()
+# ticker = yf.Ticker("AAPL")
+# Download data from Yahoo Finance and cache it for 1m
+# Cache historical data for a stock so there aren't constant API calls
 
-    class ScheduleThread(threading.Thread):
-        @classmethod
-        def run(cls):
-            while not cease_continuous_run.is_set():
-                schedule.run_pending()
-                time.sleep(interval)
+current_holdings = {}
 
-    continuous_thread = ScheduleThread()
-    continuous_thread.start()
-    return cease_continuous_run
+def get_stock_price(symbol):
+    data = yf.download(symbol, period='1d', interval='1m')
+    current_stock_price = data.iloc[-1]["Adj Close"]
+    
+    return current_stock_price
 
-
-# Prints the top 25 gainers every 30 minutes from 9:30AM to 4:00PM
-gainers = []
-
-
-def print_gainers():
+def buy_share(symbol, quantity):
     time = datetime.today().strftime("%Y-%m-%d-%H:%M:%S")
-    gainers = get_gainers()
-    print(f"Top 25 gainers as of {time}")
-    for i in range(len(gainers)):
-        cprint(gainers[i], "red")
+    stock_price = get_stock_price(symbol)
+    total_investment = stock_price * quantity
+    
+    update_history(symbol, stock_price, quantity, total_investment, True)
+    
+    return f"BUY {quantity} shares of {symbol} at {time} for the price of ${stock_price}"
 
 
-def print_every_thirty_minutes():
-    schedule.every(30).minutes.until("16:00").do(print_gainers)
+def sell_share(symbol, sell_quantity):
+    if symbol in current_holdings:
+        current_holdings_quantity = current_holdings[symbol]["quantity"]
+        
+        if current_holdings_quantity >= sell_quantity:
+          time = datetime.today().strftime("%Y-%m-%d-%H:%M:%S")
+          
+          stock_price = get_stock_price(symbol)
+          buy_price = current_holdings[symbol]["buy_price"]
+          
+          gain_or_loss = (stock_price - buy_price) * sell_quantity
+
+          if current_holdings_quantity == sell_quantity:
+            del current_holdings[symbol]
+          else:
+            current_holdings[symbol]["quantity"] -= sell_quantity
+          
+          return f"SELL {sell_quantity} shares of {symbol} at {time}. Gained {gain_or_loss}"
+    else:
+        return f"{symbol} not in current holdings"
+
+buy_share("AAPL", 400)
+buy_share("TSLA", 500)
+# print(sell_share("TSLA", 200))
+# print(current_holdings)
 
 
-schedule.every().day.at("09:30").do(print_gainers)
-schedule.every().day.at("09:30").do(print_every_thirty_minutes)
+# import schedule
+# import threading
 
-# Start the background thread
-stop_run_continuously = run_continuously()
+# """
+# - If a stock is bought then print the bought stock in BLUE
+# - If stock is sold then print the sold stock in BLUE
+#     - If the stock is sold at a loss then print the stock in RED
+#     - If the stock is sold at a gain then print the stock in GREEN
+# """
+# """
+# 5 steps to place a trade
 
-"""
-- If a stock is bought then print the bought stock in BLUE
-- If stock is sold then print the sold stock in BLUE
-  - If the stock is sold at a loss then print the stock in RED
-  - If the stock is sold at a gain then print the stock in GREEN
-"""
+# 1. The Trade Setup
+# 2. The Trade Trigger
+# 3. The Stop Loss
+# 4. The Price Target
+# 5. The Reward-To-Risk
+# """
+
+# # From https://schedule.readthedocs.io/en/stable/background-execution.html
+# def run_continuously(interval=1):
+#     cease_continuous_run = threading.Event()
+
+#     class ScheduleThread(threading.Thread):
+#         @classmethod
+#         def run(cls):
+#             while not cease_continuous_run.is_set():
+#                 schedule.run_pending()
+#                 time.sleep(interval)
+
+#     continuous_thread = ScheduleThread()
+#     continuous_thread.start()
+#     return cease_continuous_run
 
 
-def buy_share(symbol, quantity, price):
-    cprint(
-        "BUY 400 shares of TEST at 10:21:31AM for the price of $0.50",
-        "blue",
-        attrs=["bold"],
-    )
+# # Prints the top 25 gainers every 30 minutes from 9:30AM to 4:00PM
+# gainers = []
 
 
-def sell_share(symbol):
-    cprint(
-        "SELL 400 shares of TEST at 11:34:43AM for the price of $0.71",
-        "blue",
-        attrs=["reverse", "bold"],
-    )
-    cprint("GAIN from TEST: $84", "green", attrs=["bold"])
+# def print_gainers():
+#     time = datetime.today().strftime("%Y-%m-%d-%H:%M:%S")
+#     gainers = get_gainers()
+#     print(f"Top 25 gainers as of {time}")
+#     for i in range(len(gainers)):
+#         cprint(gainers[i], "red")
 
 
-"""
-5 steps to place a trade
+# def print_every_thirty_minutes():
+#     schedule.every(30).minutes.until("16:00").do(print_gainers)
 
-1. The Trade Setup
-2. The Trade Trigger
-3. The Stop Loss
-4. The Price Target
-5. The Reward-To-Risk
-"""
+
+# schedule.every().day.at("09:30").do(print_gainers)
+# schedule.every().day.at("09:30").do(print_every_thirty_minutes)
+
+# # Start the background thread
+# stop_run_continuously = run_continuously()
