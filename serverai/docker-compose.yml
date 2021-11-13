@@ -1,8 +1,0 @@
-version: "3"
-
-services:
-  flask-app:
-    build: .
-    image: itsazamdocker/serverai
-    env_file:
-      - .env
