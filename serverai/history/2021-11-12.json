@@ -1,0 +1,18 @@
+{
+    "buy": {
+        "AAPL": {
+            "price": 149.99000549316406,
+            "quantity": 400,
+            "timestamp": "2021-11-12-16:49:29",
+            "total_investment": 59996.002197265625
+        },
+        "TSLA": {
+            "price": 1033.4200439453125,
+            "quantity": 500,
+            "timestamp": "2021-11-12-16:49:29",
+            "total_investment": 516710.02197265625
+        }
+    },
+    "sell": {},
+    "stats": {}
+}
