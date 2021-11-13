@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 load_dotenv()
 
 """Gets the article content by webscraping the article and searching for <p></p> tags"""
+
+
 def get_article_content(url):
     source = requests.get(url).text
     soup = BeautifulSoup(source, "lxml")
@@ -33,6 +35,8 @@ text_analytics_client = TextAnalyticsClient(
 )
 
 """Gets all the articles (only on the first page), sorted by relevancy, from today to a week ago"""
+
+
 def get_all_articles(topic):
     today_date = datetime.today().strftime("%Y-%m-%d")
     week_ago_date = (datetime.today() - timedelta(days=7)).strftime("%Y-%m-%d")
@@ -48,6 +52,8 @@ def get_all_articles(topic):
 
 
 """Gets the overall sentiment and sentiment score of the articles"""
+
+
 def get_articles_sentiment(topic):
     all_articles = get_all_articles(topic)
     articlesCount = len(all_articles["articles"])
@@ -57,7 +63,8 @@ def get_articles_sentiment(topic):
     for i in range(articlesCount):
         url = all_articles["articles"][i]["url"]
         content = [get_article_content(url)]
-        response = text_analytics_client.analyze_sentiment(content, language="en")
+        response = text_analytics_client.analyze_sentiment(
+            content, language="en")
         results += [doc for doc in response if not doc.is_error]
 
     sentiments = {
@@ -79,20 +86,23 @@ def get_articles_sentiment(topic):
 
     resultsLength = len(results)
 
-    # Round each to a max of 5 decimal places
-    sentiments["overallPositive"] = "{:.5f}".format(
-        sum(sentiments["positive"]) / resultsLength
-    )
-    sentiments["overallNegative"] = "{:.5f}".format(
-        sum(sentiments["negative"]) / resultsLength
-    )
-    sentiments["overallNeutral"] = "{:.5f}".format(
-        sum(sentiments["neutral"]) / resultsLength
-    )
+    if resultsLength > 0:
+        # Round each to a max of 5 decimal places
+        sentiments["overallPositive"] = "{:.5f}".format(
+            sum(sentiments["positive"]) / resultsLength
+        )
+        sentiments["overallNegative"] = "{:.5f}".format(
+            sum(sentiments["negative"]) / resultsLength
+        )
+        sentiments["overallNeutral"] = "{:.5f}".format(
+            sum(sentiments["neutral"]) / resultsLength
+        )
 
-    return sentiments
+        return sentiments
+    else:
+        return None
 
 
 # Sample
-topic = "tesla"
+topic = "hertz"
 print(get_articles_sentiment(topic))

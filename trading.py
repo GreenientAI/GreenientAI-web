@@ -4,7 +4,7 @@ from datetime import datetime
 from termcolor import cprint, colored
 import json
 import yfinance as yf
-from history import update_history
+from history import update_buy_history
 
 # ticker = yf.Ticker("AAPL")
 # Download data from Yahoo Finance and cache it for 1m
@@ -12,42 +12,46 @@ from history import update_history
 
 current_holdings = {}
 
+
 def get_stock_price(symbol):
-    data = yf.download(symbol, period='1d', interval='1m')
+    data = yf.download(symbol, period="1d", interval="1m")
     current_stock_price = data.iloc[-1]["Adj Close"]
-    
+
     return current_stock_price
+
 
 def buy_share(symbol, quantity):
     time = datetime.today().strftime("%Y-%m-%d-%H:%M:%S")
     stock_price = get_stock_price(symbol)
-    total_investment = stock_price * quantity
-    
-    update_history(symbol, stock_price, quantity, total_investment, True)
-    
-    return f"BUY {quantity} shares of {symbol} at {time} for the price of ${stock_price}"
+
+    update_buy_history(symbol, stock_price, quantity)
+
+    return (
+        f"BUY {quantity} shares of {symbol} at {time} for the price of ${stock_price}"
+    )
 
 
 def sell_share(symbol, sell_quantity):
     if symbol in current_holdings:
         current_holdings_quantity = current_holdings[symbol]["quantity"]
-        
-        if current_holdings_quantity >= sell_quantity:
-          time = datetime.today().strftime("%Y-%m-%d-%H:%M:%S")
-          
-          stock_price = get_stock_price(symbol)
-          buy_price = current_holdings[symbol]["buy_price"]
-          
-          gain_or_loss = (stock_price - buy_price) * sell_quantity
 
-          if current_holdings_quantity == sell_quantity:
-            del current_holdings[symbol]
-          else:
-            current_holdings[symbol]["quantity"] -= sell_quantity
-          
-          return f"SELL {sell_quantity} shares of {symbol} at {time}. Gained {gain_or_loss}"
+        if current_holdings_quantity >= sell_quantity:
+            time = datetime.today().strftime("%Y-%m-%d-%H:%M:%S")
+
+            stock_price = get_stock_price(symbol)
+            buy_price = current_holdings[symbol]["buy_price"]
+
+            gain_or_loss = (stock_price - buy_price) * sell_quantity
+
+            if current_holdings_quantity == sell_quantity:
+                del current_holdings[symbol]
+            else:
+                current_holdings[symbol]["quantity"] -= sell_quantity
+
+            return f"SELL {sell_quantity} shares of {symbol} at {time}. Gained {gain_or_loss}"
     else:
         return f"{symbol} not in current holdings"
+
 
 buy_share("AAPL", 400)
 buy_share("TSLA", 500)
