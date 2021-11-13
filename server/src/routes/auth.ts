@@ -1,5 +1,5 @@
-import express, { Request, Response } from 'express';
-import * as AuthController from '../controllers/AuthController';
+import express from 'express';
+import * as AuthController from '../controllers/Auth.controller';
 import verifyEmailAndPassword from '../middleware/verifyEmailAndPassword';
 
 const router = express.Router();

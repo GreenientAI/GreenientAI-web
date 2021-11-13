@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const AuthController = __importStar(require("../controllers/AuthController"));
+const AuthController = __importStar(require("../controllers/Auth.controller"));
 const verifyEmailAndPassword_1 = __importDefault(require("../middleware/verifyEmailAndPassword"));
 const router = express_1.default.Router();
 /**

@@ -124,19 +124,18 @@ const EDIT_USER = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.EDIT_USER = EDIT_USER;
 const DELETE_USER = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    User_model_1.default.findByIdAndDelete(id)
-        .then((user) => {
-        if (user) {
-            res.status(200).json({
-                user,
-                message: 'User deleted successfully',
-            });
-        }
-    })
-        .catch(() => {
+    const user = yield User_model_1.default.findById(id);
+    if (user) {
+        const userDeleted = yield User_model_1.default.findByIdAndDelete(id);
+        res.status(200).json({
+            user,
+            message: 'User deleted successfully',
+        });
+    }
+    else {
         res.status(400).json({
             message: 'A user with that id does not exist',
         });
-    });
+    }
 });
 exports.DELETE_USER = DELETE_USER;
