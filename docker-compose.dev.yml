@@ -4,16 +4,20 @@ services:
   serverai: 
     volumes: 
       - .:/app/serverai:ro
-    ports: 
-      - "4000:5000"
+    # ports: 
+    #   - "4000:5000"
   client:
     volumes: 
       - .:/app/client:ro
-    ports:
-      - "4001:3000"
-  server:
+    # ports:
+    #   - "4001:3000"
+  api:
+    build:
+      context: ./server
+      args: 
+        - NODE_ENV=development
     volumes: 
-      - .:/app/server:ro
-    ports:
-      - "4002:4000"
+      - ./server:/app/server:ro
+    # ports:
+    #   - "4002:4000"
   
