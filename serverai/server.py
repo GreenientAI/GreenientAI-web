@@ -21,7 +21,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "Connected to the GrreeenAI API"
+    return "Connected to the Greenient API"
 
 
 @app.route("/sentiment/<symbol>")

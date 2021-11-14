@@ -1,9 +1,10 @@
-# GrreeenAI
+# GreenientAI
 
 Technologies:
+
 - TypeScript/JavaScript
- - React with NextJS
- - Node with ExpressJS
+  - React with NextJS
+  - Node with ExpressJS
 - Python
 - SCSS
 - Docker

@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   return (
     <div style={{backgroundColor: '#112636', height: '100vh'}}>
       <Head>
-        <title>Grreeen</title>
+        <title>Greenient</title>
         <meta name="description" content="Home page" />
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>

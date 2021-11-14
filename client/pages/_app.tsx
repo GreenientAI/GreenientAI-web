@@ -9,7 +9,7 @@ axios.defaults.baseURL = 'http://localhost:4000/api/v1';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Navbar title="Grreeen" />
+      <Navbar title="Greenient" />
       <Component {...pageProps} />
     </>
   )
