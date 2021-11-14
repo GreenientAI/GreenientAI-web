@@ -1,0 +1,19 @@
+version: "3"
+
+services: 
+  serverai: 
+    volumes: 
+      - .:/app/serverai:ro
+    ports: 
+      - "4000:5000"
+  client:
+    volumes: 
+      - .:/app/client:ro
+    ports:
+      - "4001:3000"
+  server:
+    volumes: 
+      - .:/app/server:ro
+    ports:
+      - "4002:4000"
+  

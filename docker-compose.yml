@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  serverai:
+    build: ./serverai
+    # image: itsazamdocker/serverai
+    env_file:
+      - .env
+  client:
+    build: ./client
+    # image: itsazamdocker/client
+  server:
+    build: ./server
+    # image: itsazamdocker/server
+    env_file:
+      - .env
