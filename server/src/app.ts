@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
+import simulateRouter from './routes/simulate';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const router = express.Router();
@@ -37,6 +38,7 @@ app.use('/api/v1', router);
 router.use('/', indexRouter);
 router.use('/auth', authRouter);
 router.use('/users', usersRouter);
+router.use('/simulate', simulateRouter);
 
 app.use('*', (req: Request, res: Response) => {
   res.status(404).json({
