@@ -12,7 +12,7 @@ COPY . .
 
 EXPOSE 5000
 
-ENV FLASK_APP=server
+ENV FLASK_APP=app
 
 ENV FLASK_ENV=development
 

@@ -3,6 +3,9 @@ from markupsafe import escape
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from sentiment import get_articles_sentiment
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # === Important ===
 # Only used for simulation purposes

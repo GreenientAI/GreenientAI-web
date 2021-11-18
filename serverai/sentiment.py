@@ -104,5 +104,5 @@ def get_articles_sentiment(topic):
 
 
 # Sample
-topic = "hertz"
-print(get_articles_sentiment(topic))
+# topic = "hertz"
+# print(get_articles_sentiment(topic))

@@ -14,14 +14,14 @@ services:
       - serverai
   serverai:
     build: ./serverai
-    # image: itsazamdocker/serverai
+    image: itsazamdocker/greenient-serverai
     env_file:
       - .env
   client:
     build: ./client
-    # image: itsazamdocker/client
+    image: itsazamdocker/greenient-client
   api:
     build: ./server
-    # image: itsazamdocker/server
+    image: itsazamdocker/greenient-server
     env_file:
       - .env
