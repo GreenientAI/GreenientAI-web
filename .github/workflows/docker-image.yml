@@ -26,11 +26,11 @@ jobs:
       name: Build and push the Docker image
       run: |
         cd serverai
-        docker build . --file Dockerfile --tag itsazamdocker/serverai:$(date +%s)
+        docker build . --file Dockerfile --tag itsazamdocker/serverai
         docker push itsazamdocker/serverai
         cd ../client
-        docker build . --file Dockerfile --tag itsazamdocker/client:$(date +%s)
+        docker build . --file Dockerfile --tag itsazamdocker/client
         docker push itsazamdocker/client
         cd ../server
-        docker build . --file Dockerfile --tag itsazamdocker/server:$(date +%s)
+        docker build . --file Dockerfile --tag itsazamdocker/server
         docker push itsazamdocker/server
