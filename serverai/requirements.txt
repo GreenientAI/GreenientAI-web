@@ -4,7 +4,7 @@ MarkupSafe==2.0.1
 newsapi_python==0.2.6
 python-dotenv==0.19.2
 requests==2.26.0
-sentry_sdk==1.4.3
+sentry_sdk==1.5.1
 websocket_client==1.2.1
 yfinance==0.1.66
 azure-core==1.20.1
