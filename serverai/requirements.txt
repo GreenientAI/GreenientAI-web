@@ -7,6 +7,6 @@ requests==2.26.0
 sentry_sdk==1.4.3
 websocket_client==1.2.1
 yfinance==0.1.66
-azure-core==1.20.1
+azure-core==1.22.1
 azure-ai-textanalytics==5.1.0
 blinker==1.4
